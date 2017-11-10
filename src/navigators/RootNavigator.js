@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, TabNavigator } from 'react-navigation';
-import SampleA from './../components/SampleA';
-import SampleB from './../components/SampleB';
+import News from './../containers/PhotoContainer';
+import Bookmark from './../containers/PhotoFavsContainer';
+import Search from './../pages/Search';
 
 const tabScenes = {
-  ScreenA: { screen: SampleA },
-  ScreenB: { screen: SampleB },
+  News : { screen: News },
+  Bookmark: { screen: Bookmark },
+  Search: { screen: Search },
 };
 
 const tabOptions = {
-  initialRouteName: 'ScreenA',
+  initialRouteName: 'News',
   swipeEnabled: true,
   animationEnabled: true,
   tabBarOptions: {
