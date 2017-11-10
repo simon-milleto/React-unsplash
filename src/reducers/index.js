@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import navState from './navigatorReducer';
-import photo from './photoReducer';
+import photoState from './photoReducer';
 
 const state = combineReducers({
   nav: navState,
-  photo: photo
+  photos: photoState
 });
 
 export default state;

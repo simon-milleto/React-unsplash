@@ -14,11 +14,11 @@ class ListPhoto extends Component {
   }
 
   render() {
-    const { list } = this.props;
+    const { list, add, navigation, favsPhotos } = this.props;
     return (
         <FlatList
           data={list}
-          renderItem={({item}) => <Photo photo={item}/>}
+          renderItem={({item}) => <Photo photo={item} add={add} navigation={navigation} favsPhotos={favsPhotos}/>}
           keyExtractor={(item) => item.id}
           numColumns={2}
         />

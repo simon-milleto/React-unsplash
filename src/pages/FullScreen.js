@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
-import {TouchableWithoutFeedback, StyleSheet, Image, Dimensions, ImageBackground, TouchableOpacity, AsyncStorage } from 'react-native';
+import {View, StyleSheet, Image, Text, Dimensions, ImageBackground, TouchableOpacity, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { add } from './../actions/PhotoActions';
 
 const styles = StyleSheet.create({
   photo: {
-    width: (Dimensions.get('window').width/2) - 30,
-    height: (Dimensions.get('window').width/2) - 30,
-    marginLeft: 15,
-    marginRight: 15,
-    marginTop: 15,
+    width: (Dimensions.get('window').width),
+    height: (Dimensions.get('window').height)
   },
   icon: {
     width: 40,
@@ -18,38 +15,59 @@ const styles = StyleSheet.create({
   },
   clickable: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 70,
     right: 10,
+  },
+  header: {
+    backgroundColor: 'rgba(237, 237, 237, 0.7)',
+    paddingTop:10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingBottom: 10,
+  },
+  cross: {
+    position:'absolute',
+    left: (Dimensions.get('window').width) - 20,
+    top: 10,
+
   }
 });
 
-class Photo extends Component {
+class FullScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      photo: this.props.photo,
+      photo: this.props.navigation.state.params.photo
     };
   }
 
   render() {
     const { photo } = this.state;
-    let { favsPhotos } = this.props;
-    // console.log(this.props);
+    const { favsPhotos } = this.props;
     const url = favsPhotos.includes(photo) ? require('./../img/star.png') : require('./../img/star_empty.png');
     return (
-      <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('FullScreen', {photo: photo})}>
+      <View>
+        <StatusBar hidden={true} />
         <ImageBackground style={styles.photo}
         source={{
-          uri: photo.urls.thumb
+          uri: photo.urls.full
         }}>
+        <View style={styles.header}>
+          <Text>Photo by {photo.user.name}</Text>
+          <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.cross}>
+            <Text>
+              X
+            </Text>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity
-          onPress={() => this.favPhoto()}
           style={styles.clickable}
+          onPress={() => this.favPhoto()}
           >
           <Image style={styles.icon} source={url}/>
         </TouchableOpacity>
       </ImageBackground>
-      </TouchableWithoutFeedback>
+    </View>
     );
   }
 
@@ -58,11 +76,10 @@ class Photo extends Component {
     const { add } = this.props;
     add(photo);
   };
-
 }
 
 export default connect(state => ({
   favsPhotos: state.photos.favsPhotos
 }), dispatch => ({
   add: bindActionCreators(add, dispatch)
-}))(Photo);
+}))(FullScreen);

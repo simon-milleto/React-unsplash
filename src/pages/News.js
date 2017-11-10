@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Unsplash, { toJson } from 'unsplash-js/native';
 import config from '../config';
 import ListPhoto from '../components/ListPhoto';
 
@@ -16,12 +15,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const unsplash = new Unsplash({
-  applicationId: config.applicationId,
-  secret: config.secret,
-  callbackUrl: config.callbackUrl,
-});
-
 class News extends Component {
   constructor(props) {
     super(props);
@@ -31,22 +24,20 @@ class News extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     const { fetchImage } = this.props;
-    const data = fetchImage();
-    console.log(data);
-    this.setState({list: data.payload.photos});
-    // unsplash.photos.listPhotos(2, 15, "latest")
-    //   .then(toJson)
-    //   .then(json => {
-      // });
+    fetchImage();
   }
 
   render() {
-    const { list } = this.state;
+    const { photos, favsPhotos, add, loading, navigation } = this.props;
+    console.log(this.props);
     return (
       <View style={styles.container}>
-        <ListPhoto list={list}/>
+        {loading ?
+          <Text>Unsplash</Text>
+      :
+      <ListPhoto list={photos} add={add} navigation={navigation} favsPhotos={favsPhotos}/>
+      }
       </View>
     );
   }
