@@ -30,7 +30,6 @@ class News extends Component {
 
   render() {
     const { photos, favsPhotos, add, loading, navigation } = this.props;
-    console.log(this.props);
     return (
       <View style={styles.container}>
         {loading ?

@@ -11,10 +11,13 @@ export default function photoState(state = initialState, action) {
   switch (action.type) {
     case ADD_PHOTO:
     let res = [];
-      if(!state.favsPhotos.includes(action.payload)){
-        let tmp = state.favsPhotos.map((photo) => photo.id)
+    let check = false;
+    state.favsPhotos.forEach((p) => {
+      p.id == action.payload.id ? check = true : '';
+    });
+      if(!check){
         res = [...state.favsPhotos, action.payload];
-        AsyncStorage.setItem("Favs", JSON.stringify([...tmp, action.payload.id])).then((data) => {
+        AsyncStorage.setItem("Favs", JSON.stringify([...state.favsPhotos, action.payload])).then((data) => {
         }).catch((err) => {
               console.log(err);
         });
@@ -23,26 +26,16 @@ export default function photoState(state = initialState, action) {
           return p.id !== action.payload.id;
         });
         res = removed;
-        removed = removed.map((photo) => photo.id)
         AsyncStorage.setItem("Favs", JSON.stringify(removed)).then((data) => {
 
         }).catch((err) => {
           console.log(err);
         });
       }
-      let apiPhotos = [];
-      state.apiPhotos.forEach((photo) => {
-          if(res.includes(photo)) {
-            photo.toggled = true;
-          }else{
-            photo.toggled = false;
-          }
-          apiPhotos.push(photo);
-      });
       return {
         ...state,
         favsPhotos: res,
-        apiPhotos: apiPhotos
+        apiPhotos: state.apiPhotos
       };
     case FETCH_IMAGE:
 

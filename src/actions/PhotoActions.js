@@ -37,16 +37,11 @@ export const fetchImage = () => (dispatch) => {
   let favsPhotos = [];
     AsyncStorage.getItem("Favs", (err, favs) => {
       favs = JSON.parse(favs);
-      json.forEach((photo) => {
-        if(favs.includes(photo.id)) {
-          favsPhotos.push(photo);
-        }
-      });
       dispatch ({
           type: FETCH_IMAGE,
           payload: {
             data: json,
-            favsPhotos: favsPhotos,
+            favsPhotos: favs,
             loading: false
           }
         });

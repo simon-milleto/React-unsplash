@@ -34,8 +34,14 @@ class Photo extends Component {
   render() {
     const { photo } = this.state;
     let { favsPhotos } = this.props;
-    // console.log(this.props);
-    const url = favsPhotos.includes(photo) ? require('./../img/star.png') : require('./../img/star_empty.png');
+
+    let check = false;
+    favsPhotos.forEach((p) => {
+      p.id == photo.id ? check = true : '';
+    });
+
+    const url = check ? require('./../img/star.png') : require('./../img/star_empty.png');
+
     return (
       <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('FullScreen', {photo: photo})}>
         <ImageBackground style={styles.photo}

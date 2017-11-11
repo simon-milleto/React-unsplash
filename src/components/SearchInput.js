@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, TextInput } from 'react-native';
+import { View, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
 
 const styles = StyleSheet.create({
   item: {
@@ -9,17 +9,20 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 10,
-    paddingBottom: 10,
+    paddingBottom: 10
   },
   picto: {
     height: 38,
     flex: 1,
   },
+  img: {
+    height: 38,
+    width: 38
+  },
   input: {
     paddingLeft: 10,
     paddingRight: 10,
     flex:8,
-    textAlign: 'right',
     fontStyle: 'italic',
     fontSize: 14
   }
@@ -34,14 +37,20 @@ class SearchInput extends Component {
   }
 
   render() {
+    const { text } = this.state
     return (
       <View style={styles.item}>
         <TextInput
           style={styles.input}
           placeholder="Rechercher"
-          onChangeText={(text) => this.props.onSearchChange(text)}
+          value={text}
+          onChangeText={(tx) => this.setState({text: tx})}
+          onFocus={() => this.props.handleFocus()}
         />
-        <Image style={styles.picto} source={require(`./../img/search.png`)}/>
+        <TouchableOpacity style={styles.picto}
+          onPress={() => this.props.onSearchChange(this.state.text)}>
+          <Image style={styles.img} source={require(`./../img/search.png`)}/>
+        </TouchableOpacity>
       </View>
     );
   }

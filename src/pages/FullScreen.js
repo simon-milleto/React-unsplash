@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Text, Dimensions, ImageBackground, TouchableOpacity, StatusBar } from 'react-native';
+import {View, StyleSheet, Image, Text, Dimensions, ImageBackground, TouchableOpacity, StatusBar, Share } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { add } from './../actions/PhotoActions';
@@ -13,17 +13,32 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
-  clickable: {
+  clickableFav: {
     position: 'absolute',
-    bottom: 70,
+    bottom: 10,
     right: 10,
   },
+  clickableShare: {
+    position: 'absolute',
+    bottom: 10,
+    right: 60,
+  },
   header: {
-    backgroundColor: 'rgba(237, 237, 237, 0.7)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     paddingTop:10,
     paddingLeft: 5,
     paddingRight: 5,
-    paddingBottom: 10,
+    paddingBottom: 10
+  },
+  bottom: {
+    position: 'absolute',
+    bottom:0,
+    left: 0,
+    width: Dimensions.get('window').width,
+    height: 60,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    paddingLeft: 5,
+    paddingRight: 5,
   },
   cross: {
     position:'absolute',
@@ -53,19 +68,27 @@ class FullScreen extends Component {
           uri: photo.urls.full
         }}>
         <View style={styles.header}>
-          <Text>Photo by {photo.user.name}</Text>
+          <Text style={{color: 'white'}}>Photo by {photo.user.name}</Text>
           <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.cross}>
-            <Text>
+            <Text style={{color: 'white'}}>
               X
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.clickable}
-          onPress={() => this.favPhoto()}
-          >
-          <Image style={styles.icon} source={url}/>
-        </TouchableOpacity>
+        <View style={styles.bottom}>
+          <TouchableOpacity
+            style={styles.clickableShare}
+            onPress={() => this.sharePhoto()}
+            >
+            <Image style={styles.icon} source={require('./../img/share.png')}/>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.clickableFav}
+            onPress={() => this.favPhoto()}
+            >
+            <Image style={styles.icon} source={url}/>
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
     </View>
     );
@@ -75,6 +98,12 @@ class FullScreen extends Component {
     const { photo } = this.state;
     const { add } = this.props;
     add(photo);
+  };
+
+  sharePhoto() {
+    const { photo } = this.state;
+    console.log(photo);
+    Share.share({url: photo.links.html});
   };
 }
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { addNavigationHelpers, TabNavigator, StackNavigator } from 'react-navigation';
 import News from './../containers/PhotoContainer';
 import Bookmark from './../containers/PhotoFavsContainer';
-import Search from './../pages/Search';
+import Search from './../containers/SearchContainer';
 import FullScreen from './../pages/FullScreen';
 
 const fade = (props) => {
@@ -31,8 +31,11 @@ const HomeStack = StackNavigator({
     screen: News
   },
   FullScreen: {
-    screen: FullScreen
-  }
+    screen: FullScreen,
+    navigationOptions: {
+       tabBarVisible: false
+      }
+    }
 }, {
   headerMode: 'none',
   transitionConfig: () => ({
@@ -47,8 +50,30 @@ const BookmarkStack = StackNavigator({
     screen: Bookmark
   },
   FullScreen: {
-    screen: FullScreen
-  }
+    screen: FullScreen,
+    navigationOptions: {
+       tabBarVisible: false
+      }
+    }
+}, {
+  headerMode: 'none',
+  transitionConfig: () => ({
+    screenInterpolator: (props) => {
+      return fade(props)
+    }
+  })
+});
+
+const SearchStack = StackNavigator({
+  Search: {
+    screen: Search
+  },
+  FullScreen: {
+    screen: FullScreen,
+    navigationOptions: {
+       tabBarVisible: false
+      }
+    }
 }, {
   headerMode: 'none',
   transitionConfig: () => ({
@@ -63,7 +88,7 @@ const tabScenes = {
     screen: HomeStack ,
   },
   Bookmark: { screen: BookmarkStack },
-  Search: { screen: Search },
+  Search: { screen: SearchStack },
 };
 
 const tabOptions = {
