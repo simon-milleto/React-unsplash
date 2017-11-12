@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
 import config from '../config';
 import ListPhoto from '../components/ListPhoto';
 
@@ -33,10 +33,9 @@ class News extends Component {
     return (
       <View style={styles.container}>
         {loading ?
-          <Text>Unsplash</Text>
-      :
-      <ListPhoto list={photos} add={add} navigation={navigation} favsPhotos={favsPhotos}/>
-      }
+          <Text>Unsplash</Text> :
+          <ListPhoto list={photos} add={add} navigation={navigation} favsPhotos={favsPhotos}/>
+        }
       </View>
     );
   }

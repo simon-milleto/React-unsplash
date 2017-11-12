@@ -14,12 +14,12 @@ const unsplash = new Unsplash({
 });
 
 export const fetchImage = () => (dispatch) => {
-  // dispatch loading
   dispatch ({
     type: FETCH_IMAGE,
     payload: {
       loading: true,
-      data: []
+      data: [],
+      favsPhotos: []
     }
   });
 

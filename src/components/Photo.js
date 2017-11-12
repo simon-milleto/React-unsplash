@@ -33,10 +33,9 @@ class Photo extends Component {
 
   render() {
     const { photo } = this.state;
-    let { favsPhotos } = this.props;
+    const { favsPhotos } = this.props;
 
     let check = false;
-    console.log(this.props);
     favsPhotos.forEach((p) => {
       p.id == photo.id ? check = true : '';
     });
