@@ -9,6 +9,10 @@ const styles = StyleSheet.create({
     width: (Dimensions.get('window').width),
     height: (Dimensions.get('window').height)
   },
+  loader: {
+    width: 50,
+    height: 50
+  },
   icon: {
     width: 40,
     height: 40,
@@ -44,7 +48,6 @@ const styles = StyleSheet.create({
     position:'absolute',
     left: (Dimensions.get('window').width) - 20,
     top: 10,
-
   }
 });
 
@@ -52,44 +55,57 @@ class FullScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      photo: this.props.navigation.state.params.photo
+      photo: this.props.navigation.state.params.photo,
+      loaded:false
     };
   }
 
+  onLoad = (dataUri) => {
+  if(dataUri !== undefined){
+      this.setState({loaded: true});
+    }
+  }
+
   render() {
-    const { photo } = this.state;
+    const { photo, loaded } = this.state;
     const { favsPhotos } = this.props;
     const url = favsPhotos.includes(photo) ? require('./../img/star.png') : require('./../img/star_empty.png');
     return (
       <View>
         <StatusBar hidden={true} />
-        <ImageBackground style={styles.photo}
-        source={{
-          uri: photo.urls.full
-        }}>
-        <View style={styles.header}>
-          <Text style={{color: 'white'}}>Photo by {photo.user.name}</Text>
-          <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.cross}>
-            <Text style={{color: 'white'}}>
-              X
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.bottom}>
-          <TouchableOpacity
-            style={styles.clickableShare}
-            onPress={() => this.sharePhoto()}
-            >
-            <Image style={styles.icon} source={require('./../img/share.png')}/>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.clickableFav}
-            onPress={() => this.favPhoto()}
-            >
-            <Image style={styles.icon} source={url}/>
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
+          <ImageBackground
+            style={this.state.loaded ? styles.photo : styles.loader}
+            onLoad={this.onLoad}
+            source={
+              this.state.loaded ?
+              {
+              uri: photo.urls.full
+            } :
+            require('./../img/loading3.gif')
+          }>
+          <View style={styles.header}>
+            <Text style={{color: 'white'}}>Photo by {photo.user.name}</Text>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.cross}>
+              <Text style={{color: 'white'}}>
+                X
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.bottom}>
+            <TouchableOpacity
+              style={styles.clickableShare}
+              onPress={() => this.sharePhoto()}
+              >
+              <Image style={styles.icon} source={require('./../img/share.png')}/>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.clickableFav}
+              onPress={() => this.favPhoto()}
+              >
+              <Image style={styles.icon} source={url}/>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
     </View>
     );
   }

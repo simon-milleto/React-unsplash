@@ -36,6 +36,7 @@ class Photo extends Component {
     let { favsPhotos } = this.props;
 
     let check = false;
+    console.log(this.props);
     favsPhotos.forEach((p) => {
       p.id == photo.id ? check = true : '';
     });

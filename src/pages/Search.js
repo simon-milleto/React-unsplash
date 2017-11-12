@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import SearchInput from './../components/SearchInput';
 import ListPhoto from './../components/ListPhoto';
+import Spinner from 'react-native-spinkit';
 
 const styles = StyleSheet.create({
   container: {
@@ -67,7 +68,7 @@ class Search extends Component {
           }
           {
             loading ?
-            <Text>LOADING</Text> :
+            <Spinner isVisible={true} size={100} type="Bounce"/> :
             <ListPhoto list={searchPhotos} add={add} navigation={navigation} favsPhotos={[]} />
           }
     </View>
