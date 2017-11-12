@@ -23,29 +23,23 @@ export const fetchImage = () => (dispatch) => {
     }
   });
 
-  // unsplash.photos.listPhotos(2, 15, "latest")
-  //   .then(toJson)
-  //   .then(data => {
-  //     dispatch ({
-  //       type: FETCH_IMAGE,
-  //       payload: {
-  //         data: data,
-  //         loading: false
-  //       }
-  //     });
-  //   });
-  let favsPhotos = [];
-    AsyncStorage.getItem("Favs", (err, favs) => {
-      favs = JSON.parse(favs);
-      dispatch ({
+
+
+  AsyncStorage.getItem("Favs", (err, favs) => {
+    favs = JSON.parse(favs);
+    unsplash.photos.listPhotos(2, 15, "latest")
+      .then(toJson)
+      .then(data => {
+        dispatch ({
           type: FETCH_IMAGE,
           payload: {
-            data: json,
+            data: data,
             favsPhotos: favs,
             loading: false
           }
         });
-    });
+      });
+  });
 }
 
 export const add = (content) => (dispatch) => {
