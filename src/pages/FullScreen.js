@@ -118,7 +118,6 @@ class FullScreen extends Component {
 
   sharePhoto() {
     const { photo } = this.state;
-    console.log(photo);
     Share.share({url: photo.links.html});
   };
 }

@@ -53,7 +53,7 @@ class Search extends Component {
         <SearchInput
           style={styles.input}
           onSearchChange={(search) => this.handleSearch(search)}
-          handleFocus={(focus) => this.setState({focus: true})}/>
+          handleFocus={(focus) => this.setState({focus: focus})}/>
           {
             focus ?
             <View style={styles.lastSearch}>
@@ -62,6 +62,7 @@ class Search extends Component {
                 renderItem={({item}) => <TouchableOpacity onPress={() => this.handleSearch(item)}><Text style={styles.lastSearchText}>{item}</Text></TouchableOpacity>}
                 keyExtractor={(item) => item}
                 numColumns={1}
+                keyboardShouldPersistTaps="always"
               />
             </View> :
             <View></View>

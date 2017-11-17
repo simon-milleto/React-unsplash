@@ -1,4 +1,4 @@
-import {FETCH_IMAGE, ADD_PHOTO, } from './../actions/PhotoActions';
+import {FETCH_IMAGE, ADD_PHOTO } from './../actions/PhotoActions';
 import { AsyncStorage } from 'react-native';
 
 const initialState = {
@@ -40,7 +40,6 @@ export default function photoState(state = initialState, action) {
     case FETCH_IMAGE:
 
       return {
-        ...state,
         apiPhotos: action.payload.data,
         favsPhotos: action.payload.favsPhotos,
         loading: action.payload.loading

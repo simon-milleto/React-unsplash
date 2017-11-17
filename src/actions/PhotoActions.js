@@ -26,7 +26,7 @@ export const fetchImage = () => (dispatch) => {
 
 
   AsyncStorage.getItem("Favs", (err, favs) => {
-    favs = JSON.parse(favs);
+    favs = favs ? JSON.parse(favs) : [];
     unsplash.photos.listPhotos(2, 15, "latest")
       .then(toJson)
       .then(data => {

@@ -45,7 +45,8 @@ class SearchInput extends Component {
           placeholder="Rechercher"
           value={text}
           onChangeText={(tx) => this.setState({text: tx})}
-          onFocus={() => this.props.handleFocus()}
+          onFocus={() => this.props.handleFocus(true)}
+          onBlur={() => this.props.handleFocus(false)}
         />
         <TouchableOpacity style={styles.picto}
           onPress={() => this.props.onSearchChange(this.state.text)}>
